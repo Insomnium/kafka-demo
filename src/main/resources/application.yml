@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+        bindings:
+          limits:
+            consumer:
+              autoRebalanceEnabled: true
+              resetOffsets: true
+      bindings:
+        limits:
+          destination: limits
+          group: bl
+        limits-log:
+          destination: limits-log
+          group: log
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/limits
