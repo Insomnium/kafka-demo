@@ -18,3 +18,20 @@ Run as docker container for instance
 
 # Help
 See spring-cloud-stream & spring-kafka-streams docs
+
+# Sample
+
+Push few messages to 'limits' kafka topic:
+* Connect to topic with console producer:
+```bash
+./kafka-console-producer.sh --broker-list localhost:9092 --topic limits
+```
+* Push few messages like:
+    * `{ "type": "CHANGED", "account": "00000000000000000000", "min": 0, "max": 1000000 }`
+    * `{ "type": "CHANGED", "account": "00000000000000000000", "min": 0, "max": 1000001 }`
+    * `{ "type": "CHANGED", "account": "00000000000000000001", "min": 0, "max": 999999 }`
+    
+* See log events on 'limits-log' topic with console consumer:
+```bash
+./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic limits-log
+```
