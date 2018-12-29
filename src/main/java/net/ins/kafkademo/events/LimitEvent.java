@@ -3,6 +3,7 @@ package net.ins.kafkademo.events;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -21,5 +22,9 @@ public class LimitEvent extends AbstractEvent {
         this.account = account;
         this.min = min;
         this.max = max;
+    }
+
+    public LimitEvent() {
+        super(null);
     }
 }
