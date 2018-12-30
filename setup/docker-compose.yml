@@ -1,0 +1,48 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo:4.1
+    container_name: mongodb
+    restart: on-failure
+    ports:
+      - 27017:27017
+    labels:
+      - infra
+      - db
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: on-failure
+    command: --config.file=/etc/prometheus/limits-conf.yml
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/limits-conf.yml:/etc/prometheus/limits-conf.yml
+    labels:
+      - infra
+      - metrics
+#    network_mode: 'host'
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    labels:
+      - infra
+      - metrics
+
+networks:
+  grafetheus:
+    internal: true
+
+
+# sum(http_server_requests_seconds_count{status="200",uri=~"^/limits(.*)"})
+# sum(http_server_requests_seconds_count{status!="200",uri=~"^/limits(.*)"})
+
+
+# irate(http_server_requests_seconds_count{status="200",uri=~"^/limits(.*)"}[5m])
+# irate(http_server_requests_seconds_count{status!="200",uri=~"^/limits(.*)"}[5m])
